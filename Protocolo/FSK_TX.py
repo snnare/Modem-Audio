@@ -33,7 +33,7 @@ def modular_cadena(cadena):
     return señal_modulada
 
 
-mensaje = "Hola Gibran TKM"
+mensaje = "Adios"
 señal_modulada = modular_cadena(mensaje)
 señal = modular_bit()
 

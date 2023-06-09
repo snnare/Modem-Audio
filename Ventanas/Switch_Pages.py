@@ -3,8 +3,8 @@ import tkinter as tk
 root = tk.Tk()
 root.geometry('500x400')
 root.resizable(False, False)
-root.eval('tk::PlaceWindow . center')
 root.title('Tkinter Hub')
+root.eval('tk::PlaceWindow . center')
 
 options_frame = tk.Frame(root, bg='#c3c3c3')
 
