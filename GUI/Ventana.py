@@ -20,7 +20,7 @@ def openFile():
 
 def agregar_texto():
     texto = entrada_texto.get()  # Obtener el texto de la caja de entrada
-    area_texto.insert(tk.END, texto + "\n")  # Agregar el texto al área de texto
+    area_texto.insert(tk.END, "Tu:"+texto + "\n")  # Agregar el texto al área de texto
 
 
 # Envia el mensaje usando FSK
