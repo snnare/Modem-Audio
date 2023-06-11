@@ -8,7 +8,16 @@ duracion_tono = 0.1  # Duración del tono en segundos
 f0 = 1000  # Frecuencia de la señal portadora para el bit 0
 f1 = 2000  # Frecuencia de la señal portadora para el bit 1
 
-# 0011011
+
+def files_to_binary_representation(file_path):
+    with open(file_path, 'rb') as file:
+        binary_data = file.read()
+
+    # Convert binary data to a string of binary digits
+    binary_string = ''.join(format(byte, '08b') for byte in binary_data)
+
+    return binary_string
+
 def modular_bit(bit):
     if bit == 0:
         frecuencia_portadora = f0
@@ -35,11 +44,8 @@ def modular_cadena(cadena):
 
 mensaje = "Adios"
 señal_modulada = modular_cadena(mensaje)
-señal = modular_bit()
+# señal = modular_bit()
 
-
-print(señal_modulada)
-
-#sd.play(señal_modulada, fs)
-#sf.write('FSK.wav', señal_modulada, fs)
-#sd.wait()
+sd.play(señal_modulada, fs)
+sf.write('FSK.wav', señal_modulada, fs)
+sd.wait()

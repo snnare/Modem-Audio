@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Cargar el archivo de audio
-filename = "FSK.wav"
+filename = "C:\Proyects\Modem-Audio\FSK.wav"
 sample_rate, audio = wav.read(filename)
 
 # Obtener los valores de amplitud del audio
