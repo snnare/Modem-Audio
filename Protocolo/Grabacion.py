@@ -10,7 +10,7 @@ recording = sd.rec(int(duration * fs), samplerate=fs, channels=1)
 sd.wait()
 
 # Guardar la grabación en un archivo WAV
-file_name = "grabacion.wav"
+file_name = "transmisor.wav"
 sf.write(file_name, recording, fs)
 
 print(f"La grabación se guardó en {file_name}.")
