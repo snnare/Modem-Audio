@@ -4,7 +4,7 @@ import soundfile as sf
 
 # FSK
 fs = 44100  # Frecuencia de muestreo en Hz
-duracion_tono = 0.1  # Duración del tono en segundos
+duracion_tono = 0.2  # Duración del tono en segundos
 f0 = 1000  # Frecuencia de la señal portadora para el bit 0
 f1 = 2000  # Frecuencia de la señal portadora para el bit 1
 
