@@ -12,10 +12,24 @@ sample_rate, audio = wav.read(filename)
 # Crear el eje de tiempo en segundos
 time = np.arange(0, len(audio)) / sample_rate
 
-# Graficar el audio
+# Graficar el audio en el dominio del tiempo
 plt.figure(figsize=(10, 4))
+plt.subplot(121)
 plt.plot(time, audio)
 plt.xlabel("Tiempo (s)")
 plt.ylabel("Amplitud")
 plt.title("Gráfico de audio")
+
+# Calcular la transformada de Fourier
+fft = np.fft.fft(audio)
+freq = np.fft.fftfreq(len(audio), d=1/sample_rate)
+
+# Graficar el espectro de frecuencia
+plt.subplot(122)
+plt.plot(freq, np.abs(fft))
+plt.xlabel("Frecuencia (Hz)")
+plt.ylabel("Amplitud")
+plt.title("Espectro de frecuencia")
+
+plt.tight_layout()
 plt.show()
