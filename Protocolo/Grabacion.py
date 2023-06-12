@@ -14,3 +14,4 @@ file_name = "grabacion.wav"
 sf.write(file_name, recording, fs)
 
 print(f"La grabación se guardó en {file_name}.")
+#hola
