@@ -2,7 +2,7 @@ import sounddevice as sd
 import soundfile as sf
 
 fs = 44100  # Frecuencia de muestreo en Hz
-duration = 10  # Duración de la grabación en segundos
+duration = 2  # Duración de la grabación en segundos
 
 # Grabar audio desde el puerto de 3.5 mm
 print("Grabando audio desde el puerto de 3.5 mm...")
