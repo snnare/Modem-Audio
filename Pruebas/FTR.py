@@ -1,7 +1,7 @@
 import soundfile as sf
 import numpy as np
 
-fs = 44100  # Sampling frequency in Hz
+fs = 18000  # Sampling frequency in Hz
 tone_duration = 0.2  # Duration of each tone in seconds
 f0 = 1000  # Carrier frequency for bit 0
 f1 = 2000  # Carrier frequency for bit 1
