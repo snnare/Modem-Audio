@@ -2,9 +2,9 @@ import soundfile as sf
 import numpy as np
 
 fs = 18000  # Sampling frequency in Hz
-tone_duration = 0.2  # Duration of each tone in seconds
-f0 = 1000  # Carrier frequency for bit 0
-f1 = 2000  # Carrier frequency for bit 1
+tone_duration = 0.3  # Duration of each tone in seconds
+f0 = 2000  # Carrier frequency for bit 0
+f1 = 3000  # Carrier frequency for bit 1
 
 def demodulate_signal(signal, fs):
     bits_demodulated = []

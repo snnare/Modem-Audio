@@ -2,35 +2,32 @@ import sounddevice as sd
 import numpy as np
 import soundfile as sf
 
-# FSK
+# ASK
 fs = 18000  # Frecuencia de muestreo en Hz
 duracion_tono = 0.3  # Duración del tono en segundos
 f0 = 2000  # Frecuencia de la señal portadora para el bit 0
 f1 = 3000  # Frecuencia de la señal portadora para el bit 1
-
+amplitud = 0.5  # Amplitud de la señal portadora
 
 def files_to_binary_representation(file_path):
     with open(file_path, 'rb') as file:
         binary_data = file.read()
 
-    # Convert binary data to a string of binary digits
+    # Convertir datos binarios en una cadena de dígitos binarios
     binary_string = ''.join(format(byte, '08b') for byte in binary_data)
-    print (binary_string)
+    print(binary_string)
 
     return binary_string
 
 def modular_bit(bit):
     if bit == 0:
-        frecuencia_portadora = f0
+        señal_portadora = np.zeros(int(fs * duracion_tono))
     else:
-        frecuencia_portadora = f1
-    
-    tiempo = np.linspace(0, duracion_tono, int(fs * duracion_tono), endpoint=False)
-    señal_portadora = np.sin(2 * np.pi * frecuencia_portadora * tiempo)
+        tiempo = np.linspace(0, duracion_tono, int(fs * duracion_tono), endpoint=False)
+        señal_portadora = amplitud * np.sin(2 * np.pi * f1 * tiempo)
     
     return señal_portadora
 
- 
 def modular_cadena(cadena):
     señal_modulada = np.array([], dtype=np.float32)
     
@@ -42,11 +39,9 @@ def modular_cadena(cadena):
        
     return señal_modulada
 
-
 mensaje = "A"
 señal_modulada = modular_cadena(mensaje)
-# señal = modular_bit()
 
 sd.play(señal_modulada, fs)
-sf.write('FSK.wav', señal_modulada, fs)
+sf.write('ASK.wav', señal_modulada, fs)
 sd.wait()
