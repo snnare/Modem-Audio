@@ -2,6 +2,8 @@ import soundfile as sf
 import numpy as np
 import pyaudio
 import wave
+import scipy.fftpack as fourier
+import matplotlib.pyplot as plt
 
 def bfsk_modulate(bit_array, space_freq, mark_freq, baud, sample_rate):
     seconds_per_bit = 1 / baud
@@ -18,6 +20,16 @@ def bfsk_modulate(bit_array, space_freq, mark_freq, baud, sample_rate):
     return signal
 
 
+def bfsk_demodulate_ffft(signal, space_freq, mark_freq, baud, sample_rate):
+    gk =  fourier.fft(signal)
+    M_gk = abs(gk)
+
+    F = sample_rate*np.arange(0,len(signal))/len(signal)
+
+    plt.plot(F, M_gk)
+    plt.xlabel('Frecuencia (HZ)')
+    plt.ylabel('Amplitud FFT')
+    plt.show()
 
 def bfsk_demodulate(signal, space_freq, mark_freq, baud, sample_rate):
     seconds_per_bit = 1 / baud
@@ -36,11 +48,11 @@ def bfsk_demodulate(signal, space_freq, mark_freq, baud, sample_rate):
 
     return bit_array.astype(int)
 
-def grabar(duracion, ruta):
+def grabar(duracion, ruta, fs):
     # Configuración de la grabación
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
-    RATE = 44100
+    RATE = fs
     CHUNK = 1024
     RECORD_SECONDS = duracion
     WAVE_OUTPUT_FILENAME = ruta
@@ -78,6 +90,21 @@ def grabar(duracion, ruta):
     wf.writeframes(b''.join(frames))
     wf.close()
 
-grabar(8, 'Sonidos\Diana.wav')
-data, samplerate = sf.read('Sonidos\Diana.wav')
+# grabar(10, 'Sonidos\A04.wav',96000)
+data, samplerate = sf.read('Sonidos\A01.wav')
 
+#demodulada = bfsk_demodulate(data,1000,2000,2,44100)
+#print(demodulada)
+
+bfsk_demodulate_ffft(data,1000, 2000,1,44100)
+
+
+'''
+1 baudio
+A01 [1,1,1,1,0,0,0,0,1,0] 1000, 2000,1,44100
+A02 [1,0,1,0,1,1,0,0,1,0] 1000, 2000,1,44100
+A03 [1,0,1,0,1,1,0,0,1,0] 1000, 4000,1,96000
+    2 baudios
+A04 [1,0,1,0,1,1,0,0,1,0] 400, 1000,2,96000 no sirve jajaja
+A04 [1,0,1,0,1,1,0,0,1,0] 400, 1000,2,96000
+'''
