@@ -19,7 +19,22 @@ def bfsk_modulate(bit_array, space_freq, mark_freq, baud, sample_rate):
             signal = np.append(signal, mark)
     return signal
 
+def bfsk_demodulate_01(signal, space_freq, mark_freq, baud, sample_rate):
+    seconds_per_bit = 1 / baud
+    samples_per_bit = int(sample_rate * seconds_per_bit)
+    bit_array = np.array([])
 
+    for i in range(0, len(signal), samples_per_bit):
+        bit_samples = signal[i:i+samples_per_bit]
+        correlation_space = np.correlate(bit_samples, np.sin(2 * np.pi * space_freq * np.linspace(0, seconds_per_bit, samples_per_bit, endpoint=False)))
+        correlation_mark = np.correlate(bit_samples, np.sin(2 * np.pi * mark_freq * np.linspace(0, seconds_per_bit, samples_per_bit, endpoint=False)))
+
+        if correlation_space > correlation_mark:
+            bit_array = np.append(bit_array, 0)
+        else:
+            bit_array = np.append(bit_array, 1)
+
+    return bit_array.astype(int)
 def bfsk_demodulate_ffft(signal, space_freq, mark_freq, baud, sample_rate):
     gk =  fourier.fft(signal)
     M_gk = abs(gk)
@@ -89,17 +104,30 @@ def grabar(duracion, ruta, fs):
     wf.setframerate(RATE)
     wf.writeframes(b''.join(frames))
     wf.close()
+# grabar(3, 'Sonidos\D07.wav',44100)
 
-# grabar(10, 'Sonidos\A04.wav',96000)
-data, samplerate = sf.read('Sonidos\A01.wav')
+received_signal, sample_rate=  sf.read('Sonidos\R01.wav', 44100)
 
-#demodulada = bfsk_demodulate(data,1000,2000,2,44100)
-#print(demodulada)
+signal_demodulate = bfsk_demodulate_01(received_signal, 1000, 2000, 1, 44100)
 
-bfsk_demodulate_ffft(data,1000, 2000,1,44100)
+print(signal_demodulate)
+
+''' Pruebas Diana y Jose
+1baudio
+D01 [1,0,1,1,1,1] 1000, 2000,1,44100
+D02 [1,1,1,0,0,0] 400, 800,1,44100
+2 baudios
+D03 [1,1,1,0,0,0] 400, 800,2,44100
+D04 [1,1,1,0,0,0] 1500, 3000,2,44100
+
+2 baudios
+D05 [1,0,1,0,1,0] 1000, 2000,2,96000
+4
+D06 [1,0,1,0,1,1] 1000, 2000,4,44100
 
 
-'''
+D07 [1,0,1,0,1,1,1,1,1,1,0] 1000, 2000,4,44100
+
 1 baudio
 A01 [1,1,1,1,0,0,0,0,1,0] 1000, 2000,1,44100
 A02 [1,0,1,0,1,1,0,0,1,0] 1000, 2000,1,44100

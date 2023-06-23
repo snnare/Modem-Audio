@@ -2,6 +2,11 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
+from Controlador.Transmisor_FSK import Transmitir
+import os
+import sounddevice as sd
+
+
 
 
 # Funcion para abrir archivos (txt,  bin)
@@ -25,7 +30,12 @@ def agregar_texto():
 
 # Envia el mensaje usando FSK
 def send_message():
-    pass
+    tx = Transmitir(space_freq=1000, mark_freq=2000, baud=4, sample_rate=44100)
+    # signal = tx.transmisor.transmit_text(entrada_texto.get())
+    # print(signal)
+
+    sd.play(signal,44100)
+    sd.wait()
 
 # Centrar pantall
 def center_window(root):
